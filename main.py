@@ -1,11 +1,13 @@
 import random as rnd
-i=1
-lista=list()
-while i<100:
-    i=i+1
-    numero= rnd.randint(0, 100)
-    print(numero)
-    lista.append(numero)
-else:
-    pass
-print(lista)
+
+numero=rnd.randint(0,100)
+print(numero)
+
+
+def elegir_un_número(num):
+    while True:
+        if num == numero:
+            return "No es ese número"
+        else:
+            return "Has acertado"
+print(elegir_un_número(int(input("Introduce un número: "))))
