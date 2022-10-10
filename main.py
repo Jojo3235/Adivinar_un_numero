@@ -5,7 +5,7 @@ bounds=input("¿Quieres modificar los límites inferior y superiro del juego?(S/
 if bounds.lower() == "s":                 #En caso afirmativo continuamos a la siguiente pregunta
     random_bounds=input("¿Quieres que los límites sean aleatorios?(S/N): ")         #Preguntamos si quiere que los límites sean aleatorios
     if random_bounds.lower() == "s":        #En caso afirmativo establecemos el primer límite como un valor aleatorio()
-        intervalo=input("¿Cuál quieres que sea el intervalo máximo entre los límites(>50)?")  #Preguntamos por el intervalo entre límites máximo que quiere el usuario
+        intervalo=input("¿Cuál quieres que sea el intervalo máximo entre los límites(>50)?: ")  #Preguntamos por el intervalo entre límites máximo que quiere el usuario
         try:
             intervalo=int(intervalo)
         except:                 #Con esta excepción controlamos que sea un número el input
