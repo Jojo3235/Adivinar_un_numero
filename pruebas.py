@@ -1,10 +1,17 @@
+import sys
 import random as rnd
 from timeit import repeat
 def acertar(numero):
     print(numero)
     tries=0
     while True:
-        elección=int(input("Introduce un numero: "))
+        elección=input("Introduce un numero: ")
+        try:
+            elección = int(elección)
+        except:
+            print("No se ha introducido ningún número, pruebe de nuevo",
+                file=sys.stderr)
+            sys.exit()
         tries+=1
         if elección==numero:
             print("¡Has acertado el número!")

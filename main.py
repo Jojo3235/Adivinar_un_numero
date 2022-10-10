@@ -1,4 +1,5 @@
 import random as rnd
+import sys
 from pruebas import acertar,limites
 bounds=input("¿Quieres modificar los límites inferior y superiro del juego?(S/N): ")
 if bounds.lower() == "s":
@@ -10,8 +11,20 @@ if bounds.lower() == "s":
         print("Adivina el número entre {} y {}".format(lim1_rand,lim2_rand))
         acertar(rand_bound_num)
     else:
-        lim1=int(input("Elige el primer límite: "))
-        lim2=int(input("Elige el segundo límite: "))
+        lim1=input("Elige el primer límite: ")
+        try:
+            lim1=int(lim1)
+        except:
+            print("No se ha introducido ningún número, pruebe de nuevo",
+                file=sys.stderr)
+            sys.exit()
+        lim2=input("Elige el segundo límite: ")
+        try:
+            lim2=int(lim2)
+        except:
+            print("No se ha introducido un número, pruebe de nuevo",
+                file=sys.stderr)
+            sys.exit()
         num_lim_eleg=limites(lim1,lim2)
         print("Adivina el número entre {} y {}".format(lim1,lim2))
         acertar(num_lim_eleg)
