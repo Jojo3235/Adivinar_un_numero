@@ -5,17 +5,21 @@ bounds=input("¿Quieres modificar los límites inferior y superiro del juego?(S/
 if bounds.lower() == "s":                 #En caso afirmativo continuamos a la siguiente pregunta
     random_bounds=input("¿Quieres que los límites sean aleatorios?(S/N): ")         #Preguntamos si quiere que los límites sean aleatorios
     if random_bounds.lower() == "s":        #En caso afirmativo establecemos el primer límite como un valor aleatorio()
-        intervalo=input("¿Cuál quieres que sea el intervalo máximo entre los límites(>50)?: ")  #Preguntamos por el intervalo entre límites máximo que quiere el usuario
+        intervalo=input("¿Cuál quieres que sea el intervalo máximo entre los límites(>=50)?: ")  #Preguntamos por el intervalo entre límites máximo que quiere el usuario
         try:
             intervalo=int(intervalo)
         except:                 #Con esta excepción controlamos que sea un número el input
-            print("No se ha introducido un número", file=sys.stderr())
+            print("No se ha introducido un número o el número introducido es menor a 50", file=sys.stderr())
             sys.exit()
-        lim1_rand=rnd.randint(0,200)            #El primer límite es aleatorio y el segundo es el primero + un número aleatorio entre 30 y el valor pedido previamente
-        lim2_rand=lim1_rand+rnd.randint(30, intervalo)
-        rand_bound_num=limites(lim1_rand,lim2_rand)
-        print("Adivina el número entre {} y {}".format(lim1_rand,lim2_rand))    #Imprimimos los límites del intervalo a adivinar el número
-        acertar(rand_bound_num)       #Llamamos a la función acertar del archivo pruebas con el valor aleatorio dentro del límite
+        if int(intervalo)>=50:
+            lim1_rand=rnd.randint(0,200)            #El primer límite es aleatorio y el segundo es el primero + un número aleatorio entre 30 y el valor pedido previamente
+            lim2_rand=lim1_rand+rnd.randint(30, intervalo)
+            rand_bound_num=limites(lim1_rand,lim2_rand)
+            print("Adivina el número entre {} y {}".format(lim1_rand,lim2_rand))    #Imprimimos los límites del intervalo a adivinar el número
+            acertar(rand_bound_num)       #Llamamos a la función acertar del archivo pruebas con el valor aleatorio dentro del límite
+        else:
+            print("El número introducido es menor a 50")
+            pass
     else:                    #Si quiere establecer el mismo los límites le preguntamos por ambos
         lim1=input("Elige el primer límite: ")
         try:                            #Con estas excepciones controlamos que sean números enteros los 2 límites
