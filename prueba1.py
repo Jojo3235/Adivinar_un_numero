@@ -1,5 +1,6 @@
+#sys.path
 import random as rnd
-from pruebas import acertar,limites
+from definiciones import acertar,limites
 bounds=input("¿Quieres modificar los límites inferior y superiro del juego?(S/N): ")
 if bounds.lower() == "s":
     random_bounds=input("¿Quieres que los límites sean aleatorios?(S/N): ")

@@ -1,6 +1,5 @@
 import sys
-import random as rnd
-from timeit import repeat          #Importamos las librerias necesarias
+import random as rnd #Importamos las librerias necesarias
 def acertar(numero):            #Definimos la primera función que será la parte principal del funcionamiento interno del juego
     print(numero)               
     tries=0                     #Igualamos los intentos a 0
