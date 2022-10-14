@@ -8,15 +8,21 @@ max=MAX
 SI=("s","si","y","yes","1")
 VERDADERO=("v","verdadero","t","true","1")
 
-def acertar(numero,lim1,lim2):            #Definimos la primera función que será la parte principal del funcionamiento interno del juego               
-    tries=0                     #Igualamos los intentos a 0
-    while True:                 
+def tries(atts):
+    atts+=1
+    return atts
+
+def acertar(numero,lim1,lim2):
+    atts=0
+    tries(atts)            #Definimos la primera función que será la parte principal del funcionamiento interno del juego               
+    while True:    
+        atts=tries(atts)             
         elección=pedir_numero("Introduce un número",lim1,lim2)
-        tries+=1                                    #Suma 1 al contador de intentos
+        tries(atts)                           #Suma 1 al contador de intentos
         if elección==numero:                    #Si el número es correcto imprime que has acertado y el número de intentos y finaliza el bucle
             print("¡Has acertado el número!")
-            if tries!=1:
-                print("Número de intentos", tries)
+            if atts!=1:
+                print("Número de intentos", atts)
                 break
             else:
                 print("Número de intentos: 1")
@@ -27,6 +33,7 @@ def acertar(numero,lim1,lim2):            #Definimos la primera función que ser
                 while True:
                     if lim1<elección:
                         lim1=elección+1
+                        tries(atts)
                     else:
                         break
             else:
@@ -34,15 +41,14 @@ def acertar(numero,lim1,lim2):            #Definimos la primera función que ser
                 while True:
                     if lim2>elección:
                         lim2=elección-1
+                        tries(atts)
                     else:
                         break
 
-DIF_MIN=1
-DIF_MAX=4
 
 def dificultad(dif_1,dif_2):
-    lvl=input("Elige un número entre 1 y 4: ")
-    if int(dif_1)<int(lvl)<int(dif_2):
+    lvl=input("Elige un número entre {} y {}: ".format(dif_1,dif_2))
+    if int(dif_1)<=int(lvl)<=int(dif_2):
         try:
             lvl=int(lvl)
         except:
@@ -50,8 +56,6 @@ def dificultad(dif_1,dif_2):
         return lvl
     else:
         print("No se ha introducido un número válido")
-
-
 
 def limites(first_bound,second_bound):             #Definimos otra función que nos servira para establecer los límites correctamente
     if first_bound<second_bound:                   #Con este condicional hacemos que los límites estén primero el menor y despues el mayor, para que así no haya problemas a la hora de la ejecución del programa

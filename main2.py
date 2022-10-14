@@ -17,4 +17,8 @@ def dificultad(dif_1,dif_2):
     else:
         print("No se ha introducido un número válido")
 
-dificultad(DIF_MIN,DIF_MAX)
+
+if dificultad(DIF_MIN,DIF_MAX)==3:
+    print(True)
+else:
+    print(False)
