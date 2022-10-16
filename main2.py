@@ -24,7 +24,7 @@ def atts_max(atts,max):
         else:
             pass
 
-atts=0
+atts=00
 if dificultad(1,4)==1:
     lim1=0
     lim2=100
