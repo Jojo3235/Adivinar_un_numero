@@ -53,3 +53,10 @@ def comparación(elección,numero,atts):
                     else:
                         break
 
+def atts_max(atts,max):
+    while True:
+        if atts>=max:
+            print("Has perdido")
+            break
+        else:
+            pass
