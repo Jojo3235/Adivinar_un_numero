@@ -1,5 +1,6 @@
 import sys
 import random as rnd #Importamos las librerias necesarias
+import numpy as np
 
 MIN=0
 MAX=100
@@ -108,7 +109,7 @@ def pedir_numero(cond,lim_1,lim_2):
     return num
 
 def dificultad(dif_1,dif_2):
-    lvl=pedir_numero("Elige un número",dif_1,dif_2)
+    lvl=pedir_numero("Elige un nivel de dificultad",dif_1,dif_2)
     if int(dif_1)<=int(lvl)<=int(dif_2):
         try:
             lvl=int(lvl)
@@ -146,7 +147,7 @@ def intervalo_rand(intervalo_min):
 def intervalo_rand_sin_ayuda(intervalo_min):
     while True:
         intervalo=pedir_numero_sin_lim("Introduce un número para determinar el máximo intervalo entre los límites, mayor a {}".format(intervalo_min))
-        atts=rnd.randint(7,20)
+        atts=rnd.randint(7,30)
         print("Tienes {} intentos".format(atts))
         try:
             int(intervalo)>=intervalo_min          #Función 3
@@ -166,8 +167,8 @@ def intervalo_def():
         lim1=pedir_numero_sin_lim("Elige el primer límite")
         lim2=pedir_numero_sin_lim("Elige el segundo límite")
         num_lim_eleg=limites(lim1,lim2)  
-        print("Tienes {} intentos".format((lim2-lim1)**1/2))  
-        acertar(num_lim_eleg,lim1,lim2,((lim2-lim1)**1/2))    
+        print("Tienes {} intentos".format(round(10*(np.log10((int(lim2)-int(lim1)))))))  
+        acertar(num_lim_eleg,lim1,lim2,(round(10*(np.log10((int(lim2)-(lim1)))))))    
 
 def intervalo_def_sin_ayuda():
     random_bounds_pregunta=input("¿Quieres que los límites sean aleatorios?(S/N): ")    
@@ -177,8 +178,8 @@ def intervalo_def_sin_ayuda():
         lim1=pedir_numero_sin_lim("Elige el primer límite")
         lim2=pedir_numero_sin_lim("Elige el segundo límite")
         num_lim_eleg=limites(lim1,lim2)    
-        print("Tienes {} intentos".format((lim2-lim1)**1/2))
-        acertar_sin_ayuda(num_lim_eleg,lim1,lim2,((lim2-lim1)**1/2))    
+        print("Tienes {} intentos".format(round(10*(np.log10((int(lim2)-int(lim1)))))))  
+        acertar(num_lim_eleg,lim1,lim2,(round(10*(np.log10((int(lim2)-(lim1)))))))   
 
 #Jugar
 
@@ -236,7 +237,7 @@ def jugar_una_vez_sin_ayuda():
         num=rnd.randint(lim1,lim2)          
         acertar_sin_ayuda(num,lim1,lim2,atts)
 
-def pedir_entrada_si_o_no(cond):
+def jugar_de_nuevo(cond):
     try:
         return input(cond).lower() in SI
     except:
@@ -244,12 +245,12 @@ def pedir_entrada_si_o_no(cond):
 
 def jugar():
     while True:
-        ayuda=input("¿Quiere restringir los límites a medida que introduzca números?: ")
+        ayuda=input("¿Quiere restringir los límites a medida que introduzca números?(S/N): ")
         if ayuda.lower() in SI:
             jugar_una_vez()
         else:
             jugar_una_vez_sin_ayuda()
-        if not pedir_entrada_si_o_no("¿Desea jugar una nueva partida?: "):
+        if not jugar_de_nuevo("¿Desea jugar una nueva partida?: "):
             print("Hasta la próxima")
             return
 
