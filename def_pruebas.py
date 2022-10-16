@@ -27,3 +27,29 @@ while True:
     max=input("Introduzca el valor máximo")
     if min<max:
         break
+from definiciones import intentos,tries
+
+def comparación(elección,numero,atts):
+    while True:
+        if elección==numero:                    #Si el número es correcto imprime que has acertado y el número de intentos y finaliza el bucle
+            print("¡Has acertado el número!")
+            intentos(atts)
+            break
+        else:                                      #Si no mandamos que imprima si el número es más grande o más pequeño
+            if elección < numero:
+                print("Prueba un número más grande")
+                while True:
+                    if lim1<elección:
+                        lim1=elección+1
+                        tries(atts)
+                    else:
+                        break
+            else:
+                print("Prueba un número más pequeño")
+                while True:
+                    if lim2>elección:
+                        lim2=elección-1
+                        tries(atts)
+                    else:
+                        break
+
