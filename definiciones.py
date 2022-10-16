@@ -8,9 +8,18 @@ max=MAX
 SI=("s","si","y","yes","1")
 VERDADERO=("v","verdadero","t","true","1")
 
+#Tries
+
 def tries(atts):
     atts+=1
     return atts
+
+#Numeros
+def intentos(atts):
+    if atts==1:
+        print("Número de intentos: 1")
+    else:
+        print("Número de intentos:", atts)
 
 def acertar(numero,lim1,lim2):
     atts=0
@@ -21,41 +30,28 @@ def acertar(numero,lim1,lim2):
         tries(atts)                           #Suma 1 al contador de intentos
         if elección==numero:                    #Si el número es correcto imprime que has acertado y el número de intentos y finaliza el bucle
             print("¡Has acertado el número!")
-            if atts!=1:
-                print("Número de intentos", atts)
-                break
-            else:
-                print("Número de intentos: 1")
-                break
+            intentos(atts)
+            break
         else:                                      #Si no mandamos que imprima si el número es más grande o más pequeño
             if elección < numero:
                 print("Prueba un número más grande")
                 while True:
                     if lim1<elección:
-                        lim1=elección+1
+                        lim1=elección
                         tries(atts)
                     else:
                         break
-            else:
+            elif elección > numero:
                 print("Prueba un número más pequeño")
                 while True:
                     if lim2>elección:
-                        lim2=elección-1
+                        lim2=elección
                         tries(atts)
                     else:
                         break
 
 
-def dificultad(dif_1,dif_2):
-    lvl=input("Elige un número entre {} y {}: ".format(dif_1,dif_2))
-    if int(dif_1)<=int(lvl)<=int(dif_2):
-        try:
-            lvl=int(lvl)
-        except:
-            print("No se ha introducido un número válido")
-        return lvl
-    else:
-        print("No se ha introducido un número válido")
+#Numeros
 
 def limites(first_bound,second_bound):             #Definimos otra función que nos servira para establecer los límites correctamente
     if first_bound<second_bound:                   #Con este condicional hacemos que los límites estén primero el menor y despues el mayor, para que así no haya problemas a la hora de la ejecución del programa
@@ -74,6 +70,17 @@ def pedir_numero(cond,lim_1,lim_2):
             if lim_1<lim_2:
                 break
     return num
+
+def dificultad(dif_1,dif_2):
+    lvl=pedir_numero("Elige un número",dif_1,dif_2)
+    if int(dif_1)<=int(lvl)<=int(dif_2):
+        try:
+            lvl=int(lvl)
+        except:
+            print("No se ha introducido un número válido")
+        return lvl
+    else:
+        print("No se ha introducido un número válido")
 
 def pedir_numero_sin_lim(cond):
     while True:
@@ -94,10 +101,12 @@ def intervalo_rand(intervalo_min):
             lim2_rand=lim1_rand+rnd.randint(30, intervalo)
             rand_bound_num=limites(lim1_rand,lim2_rand)
             acertar(rand_bound_num,lim1_rand,lim2_rand)
+            break
         except:
             print("No se ha introducido un número válido", file=sys.stderr)
             
-
+def dificultades():
+    return 
 def intervalo_def():
     random_bounds_pregunta=input("¿Quieres que los límites sean aleatorios?(S/N): ")    
     if random_bounds_pregunta.lower() in SI:                #Funcion 2 llamando a la funcion 3
@@ -108,13 +117,31 @@ def intervalo_def():
         num_lim_eleg=limites(lim1,lim2)    
         acertar(num_lim_eleg,lim1,lim2)    
 
+#Jugar
+
 def jugar_una_vez():
     bounds=input("¿Quieres modificar los límites inferior y superior del juego?(S/N): ")
     if bounds.lower() in SI:                 
         intervalo_def() #Funcion 1 llamando a la funcion 2 y 3
-    else:           
-        num=rnd.randint(0,100)             
-        acertar(num,min,max)
+    else:
+        dif=dificultad(1,4)  
+        if dif==1:
+            lim1=0
+            lim2=100
+        elif dif==2:
+            lim1=0
+            lim2=1000
+        elif dif==3:
+            lim1=0
+            lim2=1000000
+        elif dif==4:
+            lim1=0
+            lim2=1000000000000
+        else:
+            print("No existe esa dificultad")         
+        num=rnd.randint(lim1,lim2)   
+        print(num)          
+        acertar(num,lim1,lim2)
 
 def pedir_entrada_si_o_no(cond):
     try:
