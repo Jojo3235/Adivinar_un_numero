@@ -1,9 +1,20 @@
 import sys
 import random as rnd #Importamos las librerias necesarias
 import numpy as np
+import pandas as pd
 
 SI=("s","si","y","yes","1")
 VERDADERO=("v","verdadero","t","true","1")
+
+
+def nombre():
+    username=input("Introduzca su nombre de usuario: ")
+    return username
+
+def pregunta_lb():
+    respuesta_lb=input("¿Quiere registrar su puntuación?: ")
+    return respuesta_lb
+
 
 #Tries
 
@@ -45,9 +56,11 @@ def pedir_numero(cond,lim_1,lim_2):     #Esta función nos permite pedir un núm
 def intentos(atts):         #Con la función intentos ponemos que nos imprima el numero de intentos
     if atts==1:
         print("Número de intentos: 1")
+        return atts
     else:
         print("Número de intentos:", atts)
-        
+        return atts
+
 #Numeros
 
 
@@ -62,7 +75,7 @@ def acertar(numero,lim1,lim2,max_att):     #Esta función es la más básica par
             if elección==numero:                    #Si el número es correcto imprime que has acertado y el número de intentos y finaliza el bucle
                 print("¡Has acertado el número!")
                 intentos(atts)
-                break
+                return atts
             else:                                      #Si no mandamos que imprima si el número es más grande o más pequeño
                 if elección < numero:
                     print("Prueba un número más grande")
@@ -95,7 +108,7 @@ def acertar_sin_ayuda(numero,lim1,lim2,max_att):  #Igual que la función acertar
             if elección==numero:                   
                 print("¡Has acertado el número!")
                 intentos(atts)
-                break
+                return atts
             else:                                     
                 if elección < numero:
                     print("Prueba un número más grande")
@@ -185,8 +198,6 @@ def intervalo_def_sin_ayuda():      #La misma función que arriba pero se llama 
         print("Tienes {} intentos".format(escalado_intentos(lim1,lim2)))  
         acertar_sin_ayuda(num_lim_eleg,lim1,lim2,(escalado_intentos(lim1,lim2)))   
 
-#Jugar
-
 def jugar_una_vez():      #En esta función acabamos el último modo de juego, donde añadimos los modos de dificultad de limites predeterminados
     bounds=input("¿Quieres modificar los límites inferior y superior del juego?(S/N): ")    #Preguntamos si quiere jugar con límites no predeterminados
     if bounds.lower() in SI:          #En caso afirmativo se ejecuta la función de intervalo_def
@@ -212,7 +223,7 @@ def jugar_una_vez():      #En esta función acabamos el último modo de juego, d
         else:
             print("No existe esa dificultad")         
         num=rnd.randint(lim1,lim2)          
-        acertar(num,lim1,lim2,atts)     #Empieza el juego con los límites e intentos en función del nivel elegido
+        registrar_score(num,lim1,lim2,atts,dif)             #Empieza el juego con los límites e intentos en función del nivel elegido
 
 
 def jugar_una_vez_sin_ayuda():      #Misma función pero no esta la ayuda del ajuste de límites
@@ -225,6 +236,7 @@ def jugar_una_vez_sin_ayuda():      #Misma función pero no esta la ayuda del aj
             lim1=0
             lim2=100
             atts=8
+            
         elif dif==2:
             lim1=0
             lim2=1000
@@ -240,8 +252,7 @@ def jugar_una_vez_sin_ayuda():      #Misma función pero no esta la ayuda del aj
         else:
             print("No existe esa dificultad")         
         num=rnd.randint(lim1,lim2)          
-        acertar_sin_ayuda(num,lim1,lim2,atts)
-        return dif
+        registrar_score_sin_ayuda(num,lim1,lim2,atts,dif)    
 
 def jugar_de_nuevo(cond):   #Función para poder volver a jugar
     try:
@@ -260,7 +271,57 @@ def jugar():        #Esta función nos ejecuta el programa entero
             print("Hasta la próxima")   
             return
 
-if __name__=='__main__':       #Con esto vemos si el código se a ejecutado directamente o imoportado
+#Nombre Bases de datos
+Leaderboard={
+        "Username":[],
+        "Dificultad":[],
+        "Intentos":[]
+    }
+
+def leaderboard(lby,lbx):
+    dt=pd.DataFrame(lby)
+    Lby=pd.concat([dt,lbx])
+    return Lby
+
+def registrar_score(num,lim1,lim2,max_atts,dif):
+    Lb1=pd.DataFrame(Leaderboard, columns=["Username", "Dificultad", "Intentos"])
+    while True:
+        atts=acertar(num,lim1,lim2,max_atts)
+        pre_lb=pregunta_lb()
+        if pre_lb in SI:
+            username=nombre()
+            dataFrame_jugada=pd.DataFrame({"Username":[username],
+            "Dificultad":[dif],
+            "Intentos":[atts]},
+            columns=["Username","Dificultad","Intentos"])
+            Lb1=leaderboard(Lb1,dataFrame_jugada)
+            Lb1.sort_values(by=["Dificultad","Intentos"], ascending=[True,False])
+            print(Lb1)      
+            return Lb1
+        else:
+            break
+
+def registrar_score_sin_ayuda(num,lim1,lim2,max_atts,dif):
+    Lb1=pd.DataFrame(Leaderboard, columns=["Username", "Dificultad", "Intentos"])
+    while True:
+        atts=acertar_sin_ayuda(num,lim1,lim2,max_atts)
+        pre_lb=pregunta_lb()
+        if pre_lb in SI:
+            username=nombre()
+            dataFrame_jugada=pd.DataFrame({"Username":[username],
+            "Dificultad":[dif],
+            "Intentos":[atts]},
+            columns=["Username","Dificultad","Intentos"])
+            Lb1=leaderboard(Lb1,dataFrame_jugada)
+            Lb1.sort_values(by=["Dificultad","Intentos"], ascending=[True,False])
+            print(Lb1)      
+            return Lb1
+        else:
+            break
+
+
+#Parte importable
+if __name__=='__main__':       #Con esto vemos si el código se a ejecutado directamente o se ha importado
     print("Se ha ejecutado el módulo")
     jugar()
 else:
