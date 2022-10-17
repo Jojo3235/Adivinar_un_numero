@@ -1,5 +1,4 @@
-from definiciones import jugar   #Importamos las librerias y funciones necesarias y también las funciones creadas en el otro archivo (pruebas.py)
+from definiciones import jugar   #Importamos el módulo del juego
 
 if __name__=='__main__':
     jugar()
-    
