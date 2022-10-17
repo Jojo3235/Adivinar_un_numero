@@ -160,21 +160,21 @@ def intervalo_rand_sin_ayuda(intervalo_min):    #Lo mismo que la función interv
         except:
             print("No se ha introducido un número válido", file=sys.stderr)
 
-def escalado_intentos(lim1,lim2):       #En esta función cremos un escalado de intentos para las funciones de intervalos definidos
+def escalado_intentos(lim1,lim2):       #En esta función creamos un escalado de intentos para las funciones de intervalos definidos
     return round(10*(np.log10((int(lim2)-(lim1)))))
 
-def intervalo_def():
-    random_bounds_pregunta=input("¿Quieres que los límites sean aleatorios?(S/N): ")    
-    if random_bounds_pregunta.lower() in SI:               
+def intervalo_def():        #Creamos una función con los límites definidos por el jugador
+    random_bounds_pregunta=input("¿Quieres que los límites sean aleatorios?(S/N): ")    #Preguntamos si quiere que los límites sean aleatorios
+    if random_bounds_pregunta.lower() in SI:               #En caso afirmativo se ejecuta la función con limites aleatorios
         intervalo_rand(50)
     else:               
-        lim1=pedir_numero_sin_lim("Elige el primer límite")
+        lim1=pedir_numero_sin_lim("Elige el primer límite") #Si no, pide los límites, muestra los límites en función de la función escalado_intentos 
         lim2=pedir_numero_sin_lim("Elige el segundo límite")
         num_lim_eleg=limites(lim1,lim2)  
         print("Tienes {} intentos".format(escalado_intentos(lim1,lim2)))  
-        acertar(num_lim_eleg,lim1,lim2,(escalado_intentos(lim1,lim2)))    
+        acertar(num_lim_eleg,lim1,lim2,(escalado_intentos(lim1,lim2)))    #Se ejecuta la parte del juego de acertar el número con un número entre los límites y intentos según la función definida
 
-def intervalo_def_sin_ayuda():
+def intervalo_def_sin_ayuda():      #La misma función que arriba pero se llama a la función acertar_sin_ayuda en vez de acertar
     random_bounds_pregunta=input("¿Quieres que los límites sean aleatorios?(S/N): ")    
     if random_bounds_pregunta.lower() in SI:               
         intervalo_rand(50)
@@ -183,17 +183,17 @@ def intervalo_def_sin_ayuda():
         lim2=pedir_numero_sin_lim("Elige el segundo límite")
         num_lim_eleg=limites(lim1,lim2)    
         print("Tienes {} intentos".format(escalado_intentos(lim1,lim2)))  
-        acertar(num_lim_eleg,lim1,lim2,(escalado_intentos(lim1,lim2)))   
+        acertar_sin_ayuda(num_lim_eleg,lim1,lim2,(escalado_intentos(lim1,lim2)))   
 
 #Jugar
 
-def jugar_una_vez():
-    bounds=input("¿Quieres modificar los límites inferior y superior del juego?(S/N): ")
-    if bounds.lower() in SI:                 
-        intervalo_def() #Funcion 1 llamando a la funcion 2 y 3
-    else:
-        dif=dificultad(1,4)  
-        if dif==1:
+def jugar_una_vez():      #En esta función acabamos el último modo de juego, donde añadimos los modos de dificultad de limites predeterminados
+    bounds=input("¿Quieres modificar los límites inferior y superior del juego?(S/N): ")    #Preguntamos si quiere jugar con límites no predeterminados
+    if bounds.lower() in SI:          #En caso afirmativo se ejecuta la función de intervalo_def
+        intervalo_def() 
+    else:       #Si no, preguntamos por el nivel de dificultad
+        dif=dificultad(1,4)       
+        if dif==1:          #Cada nivel de dificultad tiene unos límites e intentos predeterminados
             lim1=0
             lim2=100
             atts=8
@@ -212,13 +212,13 @@ def jugar_una_vez():
         else:
             print("No existe esa dificultad")         
         num=rnd.randint(lim1,lim2)          
-        acertar(num,lim1,lim2,atts)
+        acertar(num,lim1,lim2,atts)     #Empieza el juego con los límites e intentos en función del nivel elegido
 
 
-def jugar_una_vez_sin_ayuda():
+def jugar_una_vez_sin_ayuda():      #Misma función pero no esta la ayuda del ajuste de límites
     bounds=input("¿Quieres modificar los límites inferior y superior del juego?(S/N): ")
     if bounds.lower() in SI:                 
-        intervalo_def_sin_ayuda() #Funcion 1 llamando a la funcion 2 y 3
+        intervalo_def_sin_ayuda()
     else:
         dif=dificultad(1,4)  
         if dif==1:
@@ -243,24 +243,24 @@ def jugar_una_vez_sin_ayuda():
         acertar_sin_ayuda(num,lim1,lim2,atts)
         return dif
 
-def jugar_de_nuevo(cond):
+def jugar_de_nuevo(cond):   #Función para poder volver a jugar
     try:
-        return input(cond).lower() in SI
+        return input(cond).lower() in SI 
     except:
         return False
 
-def jugar():
-    while True:
-        ayuda=input("¿Quiere restringir los límites a medida que introduzca números?(S/N): ")
+def jugar():        #Esta función nos ejecuta el programa entero
+    while True:     #Hasta que no se devuelva False con la función jugar_de_nuevo no se acabará el programa
+        ayuda=input("¿Quiere restringir los límites a medida que introduzca números?(S/N): ")   #Preguntamos si quiere jugar con ayuda o sin ayuda
         if ayuda.lower() in SI:
-            jugar_una_vez()
+            jugar_una_vez() #En caso afirmativo se ejecuta el programa con cambio de límites
         else:
-            jugar_una_vez_sin_ayuda()
-        if not jugar_de_nuevo("¿Desea jugar una nueva partida?: "):
-            print("Hasta la próxima")
+            jugar_una_vez_sin_ayuda()   #En caso negativo se ejecuta el programa sin cambio de límites
+        if not jugar_de_nuevo("¿Desea jugar una nueva partida?: "): #Si la respuesta no está en SI el juego imprime una despedida y acaba el juego
+            print("Hasta la próxima")   
             return
 
-if __name__=='__main__':
+if __name__=='__main__':       #Con esto vemos si el código se a ejecutado directamente o imoportado
     print("Se ha ejecutado el módulo")
     jugar()
 else:
